@@ -1,0 +1,251 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 20% 99%; /* Slightly brighter background */
+    --foreground: 0 0% 0%; /* Pure Black for max contrast */
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+
+    --primary: 0 60% 30%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 30 15% 95%;
+    --secondary-foreground: 0 0% 20%;
+
+    --muted: 30 10% 90%;
+    --muted-foreground: 0 0% 30%; /* Darker gray for readability */
+
+    --accent: 45 80% 55%;
+    --accent-foreground: 0 0% 10%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 30 15% 88%;
+    --input: 30 15% 88%;
+    --ring: 0 60% 30%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 25%;
+    --sidebar-primary: 0 60% 30%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 30 15% 95%;
+    --sidebar-accent-foreground: 0 0% 20%;
+    --sidebar-border: 30 15% 88%;
+    --sidebar-ring: 0 60% 30%;
+
+    /* Custom colors for GST billing */
+    --maroon: 0 60% 30%;
+    --maroon-light: 0 40% 45%;
+    --maroon-dark: 0 70% 22%;
+    --gold: 45 80% 55%;
+    --gold-light: 45 70% 70%;
+    --success: 142 70% 40%;
+    --warning: 38 92% 50%;
+    --info: 210 80% 50%;
+
+    /* Invoice specific */
+    --invoice-border: 0 0% 70%;
+    --invoice-header-bg: 0 60% 30%;
+    --invoice-badge-bg: 45 80% 55%;
+  }
+
+  .dark {
+    --background: 0 0% 8%;
+    --foreground: 30 10% 95%;
+
+    --card: 0 0% 12%;
+    --card-foreground: 30 10% 95%;
+
+    --popover: 0 0% 12%;
+    --popover-foreground: 30 10% 95%;
+
+    --primary: 0 50% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 18%;
+    --secondary-foreground: 30 10% 90%;
+
+    --muted: 0 0% 18%;
+    --muted-foreground: 30 10% 60%;
+
+    --accent: 45 70% 50%;
+    --accent-foreground: 0 0% 10%;
+
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 0 50% 45%;
+
+    --sidebar-background: 0 0% 10%;
+    --sidebar-foreground: 30 10% 90%;
+    --sidebar-primary: 0 50% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 15%;
+    --sidebar-accent-foreground: 30 10% 90%;
+    --sidebar-border: 0 0% 18%;
+    --sidebar-ring: 0 50% 45%;
+
+    --maroon: 0 50% 45%;
+    --maroon-light: 0 40% 55%;
+    --maroon-dark: 0 60% 35%;
+    --gold: 45 70% 50%;
+    --gold-light: 45 60% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-size: 17px; /* Larger base font for readability */
+  }
+}
+
+@layer components {
+  .nav-link {
+    @apply flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground transition-all duration-200;
+    @apply hover:text-primary hover:bg-secondary rounded-lg;
+  }
+
+  .nav-link-active {
+    @apply text-primary bg-secondary;
+  }
+
+  .stat-card {
+    @apply bg-card border border-border rounded-xl p-6 shadow-sm transition-all duration-300;
+    @apply hover:shadow-md hover:border-primary/20;
+  }
+
+  .invoice-table {
+    @apply w-full border-collapse;
+  }
+
+  .invoice-table th,
+  .invoice-table td {
+    @apply border border-invoice-border px-3 py-2 text-sm;
+  }
+
+  .invoice-table th {
+    @apply bg-muted font-semibold text-foreground;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-maroon-light transition-colors;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-muted transition-colors;
+  }
+
+  .input-field {
+    @apply w-full px-3 py-2 border border-input rounded-lg bg-background text-foreground;
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent;
+    @apply placeholder:text-muted-foreground transition-all duration-200;
+  }
+
+  .badge-gold {
+    @apply inline-block bg-accent text-accent-foreground px-4 py-1 font-bold text-sm;
+    border: 2px solid hsl(var(--foreground));
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: "Playfair Display", serif;
+  }
+
+  .font-sans {
+    font-family: "Inter", system-ui, sans-serif;
+  }
+
+  .text-maroon {
+    color: hsl(var(--maroon));
+  }
+
+  .bg-maroon {
+    background-color: hsl(var(--maroon));
+  }
+
+  .text-gold {
+    color: hsl(var(--gold));
+  }
+
+  .bg-gold {
+    background-color: hsl(var(--gold));
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Print styles for invoice */
+@media print {
+  body {
+    background: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+}
