@@ -143,7 +143,7 @@ export function InvoicePreview() {
       <div className="w-full overflow-x-auto pb-8">
         <div
           ref={invoiceRef}
-          className="bg-white mx-auto shadow-lg print:shadow-none"
+          className="bg-white mx-auto shadow-lg print:shadow-none print-area"
           style={{
             fontFamily: "Arial, sans-serif",
             width: "210mm", // Fixed A4 Width
@@ -212,11 +212,7 @@ export function InvoicePreview() {
 
                 <div style={{ height: "4px" }}></div>
 
-
-
-                <p className="text-sm font-bold mt-2">
-                  Mob : 98841 02646
-                </p>
+                <p className="text-sm font-bold mt-2">Mob : 98841 02646</p>
               </div>
             </div>
 
@@ -350,17 +346,17 @@ export function InvoicePreview() {
                     <td className="border-r border-black p-2 text-right text-sm whitespace-nowrap">
                       {item.rate
                         ? item.rate.toLocaleString("en-IN", {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          })
                         : ""}
                     </td>
                     <td className="p-2 text-right text-sm whitespace-nowrap">
                       {item.amount
                         ? item.amount.toLocaleString("en-IN", {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          })
                         : ""}
                     </td>
                   </tr>
@@ -531,9 +527,7 @@ export function InvoicePreview() {
                 {/* Space for stamp / signature */}
                 <div style={{ height: "28mm" }} />
 
-                <p className="text-sm">
-                  Authorised Signatory
-                </p>
+                <p className="text-sm">Authorised Signatory</p>
               </div>
             </div>
           </div>
@@ -549,15 +543,18 @@ export function InvoicePreview() {
           .no-print {
             display: none !important;
           }
-          #root > div > div > main > div > div:last-child,
-          #root > div > div > main > div > div:last-child * {
+          .print-area, .print-area * {
             visibility: visible;
           }
-          #root > div > div > main > div > div:last-child {
+          .print-area {
             position: absolute;
             left: 0;
             top: 0;
             width: 100%;
+          }
+          @page {
+            size: auto;
+            margin: 0mm;
           }
         }
       `}</style>
