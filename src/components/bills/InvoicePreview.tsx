@@ -148,7 +148,7 @@ export function InvoicePreview() {
             fontFamily: "Arial, sans-serif",
             width: "210mm", // Fixed A4 Width
             minWidth: "210mm",
-            minHeight: "297mm", // Fixed A4 Height
+            minHeight: "296mm", // Fixed A4 Height (slightly less than 297 to strictly fit)
             boxSizing: "border-box",
           }}
         >
@@ -551,11 +551,22 @@ export function InvoicePreview() {
             left: 0;
             top: 0;
             width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
           }
           @page {
-            size: auto;
-            margin: 0mm;
+            size: A4;
+            margin: 0;
           }
+          /* Ensure the container inside fits */
+          .print-area > div {
+             min-height: 296mm !important;
+             height: 296mm !important;
+             border: none !important;
+          }
+          /* Add a border wrapper if needed for visual but ensure it fits */
         }
       `}</style>
     </div>
