@@ -56,7 +56,8 @@ export function InvoicePreview() {
       pdf.addImage(imgData, "JPEG", 0, 0, pdfWidth, pdfHeight);
 
       // 2. Download Locally
-      const fileName = `invoice_${bill.invoiceNo}.pdf`;
+      const sanitizedInvoiceNo = bill.invoiceNo.replace(/[^a-zA-Z0-9-_]/g, "-");
+      const fileName = `${sanitizedInvoiceNo}.pdf`;
       pdf.save(fileName);
 
       // 3. Upload/Update to Google Drive (Background)

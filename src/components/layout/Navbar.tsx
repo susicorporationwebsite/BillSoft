@@ -74,6 +74,7 @@ export function Navbar() {
                     "GSTIN",
                     "Total",
                     "Status",
+                    "Drive Link",
                   ];
                   const csvContent =
                     "data:text/csv;charset=utf-8," +
@@ -82,7 +83,15 @@ export function Navbar() {
                     bills
                       .map(
                         (b) =>
-                          `"${b.invoiceNo}","${b.invoiceDate}","${b.buyerName}","${b.buyerGstin}","${b.grandTotal}","${b.status}"`
+                          `"${b.invoiceNo}","${b.invoiceDate}","${
+                            b.buyerName
+                          }","${b.buyerGstin}","${b.grandTotal}","${
+                            b.status
+                          }","${
+                            b.driveFileId
+                              ? `https://drive.google.com/file/d/${b.driveFileId}/view`
+                              : ""
+                          }"`
                       )
                       .join("\n");
 
