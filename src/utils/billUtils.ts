@@ -168,7 +168,7 @@ export const filterBills = (bills: Bill[], filters: FilterOptions): Bill[] => {
 
 // Calculate dashboard stats
 export const calculateDashboardStats = (bills: Bill[]): DashboardStats => {
-  const finalBills = bills.filter(b => b.status === 'final');
+  const finalBills = bills;
 
   const totalRevenue = finalBills.reduce((sum, b) => sum + b.grandTotal, 0);
   const sgstCollected = finalBills.reduce((sum, b) => sum + b.sgstAmount, 0);
@@ -237,6 +237,6 @@ export const createEmptyBill = (bills: Bill[]): Bill => {
     amountInWords: '',
     createdAt: now,
     updatedAt: now,
-    status: 'draft',
+    status: 'final',
   };
 };

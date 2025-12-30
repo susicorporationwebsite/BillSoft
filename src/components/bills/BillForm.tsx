@@ -165,8 +165,8 @@ export function BillForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSave = async (status: "draft" | "final") => {
-    if (status === "final" && !validate()) {
+  const handleSave = async () => {
+    if (!validate()) {
       toast({
         title: "Please fix the errors before saving",
         variant: "destructive",
@@ -175,9 +175,9 @@ export function BillForm() {
     }
 
     try {
-      const billToSave = {
+      const billToSave: Bill = {
         ...bill,
-        status,
+        status: "final",
         updatedAt: new Date().toISOString(),
       };
       let savedBillId = bill.id; // Assume existing ID for update
@@ -190,16 +190,11 @@ export function BillForm() {
       }
 
       toast({
-        title:
-          status === "draft"
-            ? "Draft saved successfully"
-            : "Invoice saved successfully",
+        title: "Invoice saved successfully",
       });
 
-      if (status === "final") {
-        // Navigate to the preview of the saved bill using its actual ID
-        navigate(`/invoice/${savedBillId}`);
-      }
+      // Navigate to the preview of the saved bill using its actual ID
+      navigate(`/invoice/${savedBillId}`);
     } catch (e) {
       toast({ title: "Error saving bill", variant: "destructive" });
     }
@@ -215,12 +210,8 @@ export function BillForm() {
           <p className="text-muted-foreground">Invoice No: {bill.invoiceNo}</p>
         </div>
         <div className="flex gap-3">
-          <Button variant="outline" onClick={() => handleSave("draft")}>
+          <Button onClick={handleSave}>
             <Save className="w-4 h-4 mr-2" />
-            Save Draft
-          </Button>
-          <Button onClick={() => handleSave("final")}>
-            <FileText className="w-4 h-4 mr-2" />
             Save & Preview
           </Button>
         </div>

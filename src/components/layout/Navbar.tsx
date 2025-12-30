@@ -88,9 +88,10 @@ export function Navbar() {
                           }","${b.buyerGstin}","${b.grandTotal}","${
                             b.status
                           }","${
-                            b.driveFileId
+                            b.driveLink ||
+                            (b.driveFileId
                               ? `https://drive.google.com/file/d/${b.driveFileId}/view`
-                              : ""
+                              : "")
                           }"`
                       )
                       .join("\n");

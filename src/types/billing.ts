@@ -11,22 +11,22 @@ export interface Bill {
   id: string;
   invoiceNo: string;
   invoiceDate: string;
-  
+
   // Buyer Details
   buyerName: string;
   buyerAddress: string;
   buyerGstin: string;
   poNo: string;
   poDate: string;
-  
+
   // Delivery Details
   dcNo: string;
   dcDate: string;
   modeOfTransport: string;
-  
+
   // Items
   items: BillItem[];
-  
+
   // Calculations
   subtotal: number;
   sgstRate: number;
@@ -37,12 +37,13 @@ export interface Bill {
   igstAmount: number;
   grandTotal: number;
   amountInWords: string;
-  
+
   // Metadata
   createdAt: string;
   updatedAt: string;
-  status: 'draft' | 'final';
+  status: 'final';
   driveFileId?: string;
+  driveLink?: string;
 }
 
 export interface CompanyDetails {
