@@ -9,6 +9,8 @@ import {
 } from "lucide-react";
 import { billApi } from "@/services/api";
 import companyLogo from "@/assets/company-logo.png";
+import { useAuth } from "@/context/AuthContext";
+import { toast } from "sonner";
 
 const navItems = [
   { path: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -18,6 +20,7 @@ const navItems = [
 
 export function Navbar() {
   const location = useLocation();
+  const { logout } = useAuth();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-card border-b border-border shadow-soft">
@@ -108,8 +111,10 @@ export function Navbar() {
             <button
               className="nav-link text-destructive hover:text-destructive hover:bg-destructive/10"
               onClick={() => {
-                // Logout functionality placeholder
-                console.log("Logout clicked");
+                if (confirm("Are you sure you want to logout?")) {
+                  logout();
+                  toast.success("Logged out successfully");
+                }
               }}
             >
               <LogOut className="w-4 h-4" />
