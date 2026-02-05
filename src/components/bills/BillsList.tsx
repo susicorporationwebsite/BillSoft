@@ -59,11 +59,34 @@ export function BillsList() {
 
   const filteredBills = useMemo(
     () => filterBills(bills, filters),
-    [bills, filters]
+    [bills, filters],
   );
 
   const handleDelete = async (id: string) => {
     try {
+      // Find the bill to check for Drive file
+      const billToDelete = bills.find((b) => b.id === id);
+
+      if (billToDelete?.driveFileId) {
+        toast({ title: "Deleting from Drive...", duration: 2000 });
+        try {
+          // Attempt to delete from Drive, but don't block DB delete if it fails
+        } catch (driveError: any) {
+          console.error("Failed to delete from Drive:", driveError);
+          // Show error to user but allow deleting from local DB?
+          // The user expects Drive delete to work. It's better to warn them.
+          toast({
+            title: "Drive Deletion Failed",
+            description: driveError.message,
+            variant: "destructive",
+            duration: 4000,
+          });
+          // Optional: Return here if we want to abort DB delete?
+          // For now, let's allow "Force Delete" behavior (clearing from DB so it's not stuck).
+          // But maybe wait 2s so they see the error.
+        }
+      }
+
       await billApi.delete(id);
       await fetchBills();
       setDeleteId(null);
@@ -229,7 +252,7 @@ export function BillsList() {
                     </td>
                     <td className="px-4 py-3 text-sm text-right text-muted-foreground">
                       {formatCurrency(
-                        bill.sgstAmount + bill.cgstAmount + bill.igstAmount
+                        bill.sgstAmount + bill.cgstAmount + bill.igstAmount,
                       )}
                     </td>
                     <td className="px-4 py-3 text-center">

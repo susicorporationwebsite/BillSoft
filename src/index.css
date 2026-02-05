@@ -3,8 +3,16 @@
 @tailwind utilities;
 
 @layer base {
+  @font-face {
+    font-family: "TR Renfrew";
+    src: url("/fonts/TR Renfrew.TTF") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+  }
+
   :root {
     --background: 30 20% 99%; /* Slightly brighter background */
+
     --foreground: 0 0% 0%; /* Pure Black for max contrast */
 
     --card: 0 0% 100%;

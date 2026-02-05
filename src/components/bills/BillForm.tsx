@@ -57,7 +57,7 @@ export function BillForm() {
     if ("quantity" in updates || "rate" in updates) {
       newItems[index].amount = calculateItemAmount(
         newItems[index].quantity,
-        newItems[index].rate
+        newItems[index].rate,
       );
     }
 
@@ -122,7 +122,7 @@ export function BillForm() {
 
   const updateGstRate = (
     field: "sgstRate" | "cgstRate" | "igstRate",
-    value: number
+    value: number,
   ) => {
     const updates: Partial<Bill> = { [field]: value };
     const subtotal = bill.subtotal;
@@ -150,6 +150,8 @@ export function BillForm() {
     const newErrors: Record<string, string> = {};
 
     if (!bill.buyerName.trim()) newErrors.buyerName = "Buyer name is required";
+    if (!bill.invoiceNo.trim())
+      newErrors.invoiceNo = "Invoice number is required";
     if (!bill.invoiceDate) newErrors.invoiceDate = "Invoice date is required";
     if (bill.buyerGstin && !validateGSTIN(bill.buyerGstin)) {
       newErrors.buyerGstin = "Invalid GSTIN format";
@@ -207,7 +209,11 @@ export function BillForm() {
           <h1 className="text-2xl font-display font-bold text-foreground">
             {id ? "Edit Invoice" : "Create New Invoice"}
           </h1>
-          <p className="text-muted-foreground">Invoice No: {bill.invoiceNo}</p>
+          <p className="text-muted-foreground">
+            {id
+              ? "Update invoice details below"
+              : "Fill in the details for the new invoice"}
+          </p>
         </div>
         <div className="flex gap-3">
           <Button onClick={handleSave}>
@@ -332,6 +338,20 @@ export function BillForm() {
           Invoice & Delivery Details
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="invoiceNo">Invoice No *</Label>
+            <Input
+              id="invoiceNo"
+              value={bill.invoiceNo}
+              onChange={(e) => updateBill({ invoiceNo: e.target.value })}
+              className={
+                errors.invoiceNo ? "border-destructive font-mono" : "font-mono"
+              }
+            />
+            {errors.invoiceNo && (
+              <p className="text-destructive text-sm">{errors.invoiceNo}</p>
+            )}
+          </div>
           <div className="space-y-2">
             <Label htmlFor="invoiceDate">Invoice Date *</Label>
             <Input
@@ -542,7 +562,7 @@ export function BillForm() {
               <span className="font-medium">
                 ₹{" "}
                 {(bill.sgstAmount + bill.cgstAmount + bill.igstAmount).toFixed(
-                  2
+                  2,
                 )}
               </span>
             </div>

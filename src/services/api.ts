@@ -151,13 +151,23 @@ export const driveApi = {
     const scriptUrl = import.meta.env.VITE_GOOGLE_SCRIPT_URL;
     if (!scriptUrl || !fileId) return;
 
-    await fetch(scriptUrl, {
+    // Use text/plain to avoid CORS preflight issues with Apps Script
+    const response = await fetch(scriptUrl, {
       method: 'POST',
       body: JSON.stringify({
         action: 'delete',
         fileId: fileId
       }),
     });
+
+    if (!response.ok) {
+      throw new Error(`Network error: ${response.status}`);
+    }
+
+    const result = await response.json();
+    if (result.status === 'error') {
+      throw new Error(`Apps Script Error: ${result.message}`);
+    }
   },
 };
 

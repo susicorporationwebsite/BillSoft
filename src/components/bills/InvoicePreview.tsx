@@ -39,15 +39,18 @@ export function InvoicePreview() {
     setIsGenerating(true);
 
     try {
+      console.log("Starting PDF generation...");
       // 1. Generate PDF
       const element = invoiceRef.current;
       const canvas = await html2canvas(element, {
         scale: 2,
         useCORS: true,
-        logging: false,
+        logging: true, // Enable logging for debug
         backgroundColor: "#ffffff",
+        allowTaint: true,
       });
 
+      console.log("Canvas generated");
       const imgData = canvas.toDataURL("image/jpeg", 1.0);
       const pdf = new jsPDF("p", "mm", "a4");
       const pdfWidth = pdf.internal.pageSize.getWidth();
@@ -59,6 +62,7 @@ export function InvoicePreview() {
       const sanitizedInvoiceNo = bill.invoiceNo.replace(/[^a-zA-Z0-9-_]/g, "-");
       const fileName = `${sanitizedInvoiceNo}.pdf`;
       pdf.save(fileName);
+      console.log("PDF saved locally");
 
       // 3. Upload/Update to Google Drive (Background)
       const pdfBlob = pdf.output("blob");
@@ -73,7 +77,7 @@ export function InvoicePreview() {
         bill.invoiceNo,
         pdfBlob,
         bill.invoiceDate,
-        bill.driveFileId // <--- KEY: Send existing ID to enable overwrite
+        bill.driveFileId,
       );
 
       if (driveLink) {
@@ -95,7 +99,7 @@ export function InvoicePreview() {
       console.error("PDF/Drive Error:", error);
       toast({
         title: "Download Complete",
-        description: "But failed to sync to Drive.",
+        description: "But failed to sync to Drive (Check console).",
         variant: "destructive",
       });
     } finally {
@@ -166,6 +170,9 @@ export function InvoicePreview() {
                     fontSize: "28px",
                     color: "#1E88C9",
                     marginBottom: "8px",
+                    fontFamily: "'TR Renfrew', sans-serif", // Custom font
+                    fontWeight: "bold",
+                    textTransform: "uppercase",
                   }}
                 >
                   SUSI CORPORATION
@@ -373,7 +380,7 @@ export function InvoicePreview() {
                       <td className="border-r border-black p-2"></td>
                       <td className="p-2"></td>
                     </tr>
-                  )
+                  ),
                 )}
               </tbody>
             </table>
@@ -442,6 +449,7 @@ export function InvoicePreview() {
 
               {/* QR Code */}
               <div className="w-36 p-2 border-r-2 border-black flex items-center justify-center">
+                {/* Dynamic QR Code for Amount */}
                 <img
                   src={qrCode}
                   alt="Payment QR Code"
@@ -520,7 +528,7 @@ export function InvoicePreview() {
                   </li>
                 </ol>
               </div>
-              <div className="w-60 p-3 text-center flex flex-col justify-end">
+              <div className="w-80 p-3 text-center flex flex-col justify-end">
                 <p className="text-sm">
                   for <strong>SUSI CORPORATION</strong>
                 </p>
